@@ -6,6 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -23,7 +24,7 @@ public class UserResponse {
     @Schema(description = "역할 목록")
     private List<RoleDto> roles;
 
-    public UserResponse(String username, String nickname, List<Role> roles) {
+    public UserResponse(String username, String nickname, Collection<Role> roles) {
         this.username = username;
         this.nickname = nickname;
         this.roles = roles.stream()

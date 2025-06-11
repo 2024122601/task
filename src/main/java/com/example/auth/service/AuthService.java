@@ -12,8 +12,6 @@ import com.example.auth.repository.UserRepository;
 import com.example.auth.security.JwtUtil;
 import org.springframework.stereotype.Service;
 
-import java.util.Optional;
-
 @Service
 public class AuthService {
     private final UserRepository userRepository;
@@ -24,20 +22,18 @@ public class AuthService {
         this.jwtUtil = jwtUtil;
     }
 
-    // 회원가입
     public UserResponse signup(SignupRequest request) {
-        Optional<User> existingUser = userRepository.findByUsername(request.getUsername());
-        if (existingUser.isPresent()) {
-            throw new CustomException(ErrorCode.USER_ALREADY_EXISTS);
-        }
+        userRepository.findByUsername(request.getUsername())
+                .ifPresent(user -> {
+                    throw new CustomException(ErrorCode.USER_ALREADY_EXISTS);
+                });
 
         User user = new User(request.getUsername(), request.getPassword(), request.getNickname());
         userRepository.save(user);
 
-        return new UserResponse(user.getUsername(), user.getNickname(), user.getRoles().stream().toList());
+        return new UserResponse(user.getUsername(), user.getNickname(), user.getRoles());
     }
 
-    // 로그인
     public TokenResponse login(LoginRequest request) {
         User user = userRepository.findByUsername(request.getUsername())
                 .orElseThrow(() -> new CustomException(ErrorCode.INVALID_CREDENTIALS));
@@ -50,11 +46,10 @@ public class AuthService {
         return new TokenResponse(token);
     }
 
-    // 관리자 권한 부여
     public UserResponse grantAdminRole(Long userId) {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_FOUND));
         user.addRole(Role.ADMIN);
-        return new UserResponse(user.getUsername(), user.getNickname(), user.getRoles().stream().toList());
+        return new UserResponse(user.getUsername(), user.getNickname(), user.getRoles());
     }
 }
