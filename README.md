@@ -52,7 +52,6 @@ Gradle 빌드
 
 ## AWS EC2 배포 정보
 
-* **EC2 API 서버 주소**: [http://3.107.58.108:8080](http://3.107.58.108:8080)
 * **Swagger UI 주소**: [http://3.107.58.108:8080/swagger-ui/index.html](http://3.107.58.108:8080/swagger-ui/index.html)
 
 ---
