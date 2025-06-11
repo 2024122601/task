@@ -46,7 +46,6 @@ Gradle 빌드
 ### 4. 실행 후 접속
 
 * **Swagger UI**: [http://localhost:8080/swagger-ui/index.html](http://localhost:8080/swagger-ui/index.html)
-* **API 기본 URL**: [http://localhost:8080](http://localhost:8080)
 
 ---
 
